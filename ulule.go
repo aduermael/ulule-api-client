@@ -53,7 +53,7 @@ const (
 // GetProjects returns ClientAPI user's projects.
 // Supported string filters: "created", "followed", "supported", "" (no filter)
 func (c *Client) GetProjects(filter ProjectFilter) ([]*Project, error) {
-	req, err := http.NewRequest("GET", "https://api.ulule.com/v1/users/"+c.userid+"/projects?state="+string(filter), nil)
+	req, err := http.NewRequest("GET", "https://api.ulule.com/v1/users/"+c.username+"/projects?state="+string(filter), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -93,7 +93,7 @@ func (c *Client) GetProject(identifier string) (*Project, error) {
 	}
 
 	for _, project := range projects {
-		if identifier == project.Slug || identifier == strconv.FormatFloat(project.Id, 'f', 0, 64) {
+		if identifier == project.Slug || identifier == strconv.FormatFloat(project.ID, 'f', 0, 64) {
 			return project, nil
 		}
 	}

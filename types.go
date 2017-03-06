@@ -9,8 +9,8 @@ type ListProjectResponse struct {
 
 // Project represents an Ulule project
 type Project struct {
-	Id              float64   `json:"id"`
-	Url             string    `json:"absolute_url"`
+	ID              float64   `json:"id"`
+	URL             string    `json:"absolute_url"`
 	Goal            int       `json:"goal"`
 	GoalRaised      bool      `json:"goal_raised"`
 	AmountRaised    int       `json:"amount_raised"`
@@ -18,6 +18,7 @@ type Project struct {
 	Committed       int       `json:"committed"`
 	Currency        string    `json:"currency"`
 	CurrencyDisplay string    `json:"currency_display"`
+	Country         string    `json:"country"`
 	DateEnd         string    `json:"date_end"`
 	DateStart       string    `json:"date_start"`
 	Finished        bool      `json:"finished"`
@@ -25,11 +26,15 @@ type Project struct {
 	SupportersCount int       `json:"supporters_count"`
 	TimeZone        string    `json:"timezone"`
 	Rewards         []*Reward `json:"rewards"`
+	IsOnline        bool      `json:"is_online"`
+	Lang            string    `json:"lang"`
+	NewsCount       int       `json:"news_count"`
+	Percent         int       `json:"percent"`
 }
 
 // Reward represents one reward in a Project
 type Reward struct {
-	Id             float64 `json:"id"`
+	ID             float64 `json:"id"`
 	Available      bool    `json:"available"`
 	Price          int     `json:"price"`
 	Stock          int     `json:"stock"`
@@ -46,8 +51,8 @@ type ListSupporterResponse struct {
 
 // Supporter represents an Ulule project supporter
 type Supporter struct {
-	Id         float64 `json:"id"`
-	Url        string  `json:"absolute_url"`
+	ID         float64 `json:"id"`
+	URL        string  `json:"absolute_url"`
 	DateJoined string  `json:"date_joined"`
 	FirstName  string  `json:"first_name"`
 	LastName   string  `json:"last_name"`
@@ -70,8 +75,8 @@ type ListOrderResponse struct {
 
 // Order represents an Ulule project order
 type Order struct {
-	Id              float64      `json:"id"`
-	Url             string       `json:"absolute_url"`
+	ID              float64      `json:"id"`
+	URL             string       `json:"absolute_url"`
 	Subtotal        float64      `json:"order_subtotal"`
 	Total           float64      `json:"order_total"`
 	ShippingTotal   float64      `json:"order_shipping_total"`
@@ -84,6 +89,7 @@ type Order struct {
 	BillingAddress  *Address     `json:"billing_address,omitempty"`
 }
 
+// OrderStatus describes the status of an order placed by a supporter
 type OrderStatus int8
 
 const (
@@ -114,7 +120,7 @@ type OrderItem struct {
 
 // Address represents a postal address
 type Address struct {
-	Id          float64 `json:"id"`
+	ID          float64 `json:"id"`
 	UserID      float64 `json:"user_id"`
 	FirstName   string  `json:"first_name,omitempty"`
 	LastName    string  `json:"last_name,omitempty"`
@@ -128,7 +134,7 @@ type Address struct {
 	EntityName  string  `json:"entity_name,omitempty"`
 }
 
-// Metadata
+// Metadata is used for pagination
 type Metadata struct {
 	Limit      int    `json:"limit"`
 	Offset     int    `json:"offset"`
