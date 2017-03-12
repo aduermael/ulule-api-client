@@ -1,11 +1,6 @@
 package ulule
 
-import (
-	"encoding/json"
-	"io"
-	"net/http"
-	"strconv"
-)
+import "strconv"
 
 // ProjectFilter defines filters that can be used when listing projects
 type ProjectFilter string
@@ -47,7 +42,7 @@ func (c *Client) GetProject(projectID int) (*Project, error) {
 // limit and offset stand for pagination
 // the boolean returns indicates if it was the last
 // page of supporters or not.
-func (c *Client) GetProjectSupporters(projectID, limit, offset int) ([]*Supporter, error, bool) {
+func (c *Client) GetProjectSupporters(projectID, limit, offset int) ([]*User, error, bool) {
 	projectIDStr := strconv.Itoa(projectID)
 	limitStr := strconv.Itoa(limit)
 	offsetStr := strconv.Itoa(offset)
@@ -77,20 +72,4 @@ func (c *Client) GetProjectOrders(projectID, limit, offset int) ([]*Order, error
 	}
 
 	return orders.Orders, nil, orders.Meta.Next == ""
-}
-
-// HTML utils
-
-func decodeHTMLBody(response *http.Response, i interface{}) error {
-	decoder := json.NewDecoder(response.Body)
-	for {
-		err := decoder.Decode(i)
-		if err != nil && err != io.EOF {
-			return err
-		}
-		if err != nil && err == io.EOF {
-			break
-		}
-	}
-	return nil
 }

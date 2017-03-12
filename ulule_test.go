@@ -65,3 +65,14 @@ func TestGetProjectOrders(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+// Users
+
+func TestGetUser(t *testing.T) {
+	fmt.Println("get user")
+	usr, err := client.GetUser(userID)
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Printf("%+v\n", usr)
+}

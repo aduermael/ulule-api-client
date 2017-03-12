@@ -45,12 +45,12 @@ type Reward struct {
 // ListSupporterResponse represents a response from
 // Ulule's API to a GET /projects/:id/supporters request.
 type ListSupporterResponse struct {
-	Meta       *Metadata    `json:"meta"`
-	Supporters []*Supporter `json:"supporters"`
+	Meta       *Metadata `json:"meta"`
+	Supporters []*User   `json:"supporters"`
 }
 
-// Supporter represents an Ulule project supporter
-type Supporter struct {
+// User represents an user profile on Ulule
+type User struct {
 	ID         float64 `json:"id"`
 	URL        string  `json:"absolute_url"`
 	DateJoined string  `json:"date_joined"`
@@ -58,11 +58,11 @@ type Supporter struct {
 	LastName   string  `json:"last_name"`
 	Name       string  `json:"name"`
 	UserName   string  `json:"username"`
+	Country    string  `json:"country"`
+	Lang       string  `json:"lang"`
 	TimeZone   string  `json:"timezone"`
 	IsStaff    bool    `json:"is_staff"`
-	// email won't be provided when listing supporters
-	// because this list is public. But it won't be
-	// empty when listing orders.
+	// email may be empty depending on authentication
 	Email string `json:"email"`
 }
 
@@ -84,7 +84,7 @@ type Order struct {
 	Status          OrderStatus  `json:"status"`
 	StatusDisplay   string       `json:"status_display"`
 	Items           []*OrderItem `json:"items"`
-	User            *Supporter   `json:"user"`
+	User            *User        `json:"user"`
 	ShippingAddress *Address     `json:"shipping_address,omitempty"`
 	BillingAddress  *Address     `json:"billing_address,omitempty"`
 }
