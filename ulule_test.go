@@ -6,6 +6,11 @@ import (
 	"testing"
 )
 
+const (
+	projectID = 31458  // comme-convenu-2
+	userID    = 241660 // bloglaurel
+)
+
 var (
 	client *Client
 )
@@ -13,40 +18,50 @@ var (
 func TestMain(m *testing.M) {
 	// initialize client
 	username := os.Getenv("USERNAME")
-	userid := os.Getenv("USERID")
 	apikey := os.Getenv("APIKEY")
-	client = New(username, userid, apikey)
+	accessToken := os.Getenv("ACCESS_TOKEN")
+
+	if username != "" && apikey != "" {
+		client = ClientWithUsernameAndApiKey(username, apikey)
+	} else if accessToken != "" {
+		client = ClientWithToken(accessToken)
+	} else {
+		fmt.Fprintf(os.Stderr, "USERNAME & APIKEY or ACCESS_TOKEN required")
+		os.Exit(1)
+	}
 
 	// run tests
 	os.Exit(m.Run())
 }
 
 func TestGetProjects(t *testing.T) {
-	fmt.Println("list created projects")
-	projects, err := client.GetProjects(ProjectFilterCreated)
+	fmt.Println("list projects")
+	_, err := client.GetProjects(userID, ProjectFilterAll)
 	if err != nil {
 		t.Error(err)
 	}
-	fmt.Printf("found %d projects\n", len(projects))
+}
 
-	fmt.Println("list followed projects")
-	projects, err = client.GetProjects(ProjectFilterFollowed)
+func TestGetOneProject(t *testing.T) {
+	fmt.Println("get project")
+	_, err := client.GetProject(projectID)
 	if err != nil {
 		t.Error(err)
 	}
-	fmt.Printf("found %d projects\n", len(projects))
+}
 
-	fmt.Println("list supported projects")
-	projects, err = client.GetProjects(ProjectFilterSupported)
+func TestGetProjectSupporters(t *testing.T) {
+	fmt.Println("get project supporters")
+	_, err, _ := client.GetProjectSupporters(projectID, 20, 0)
 	if err != nil {
 		t.Error(err)
 	}
-	fmt.Printf("found %d projects\n", len(projects))
+}
 
-	fmt.Println("list all projects")
-	projects, err = client.GetProjects(ProjectFilterAll)
+func TestGetProjectOrders(t *testing.T) {
+	fmt.Println("get project orders")
+	_, err, _ := client.GetProjectOrders(projectID, 20, 0)
 	if err != nil {
 		t.Error(err)
 	}
-	fmt.Printf("found %d projects\n", len(projects))
 }
