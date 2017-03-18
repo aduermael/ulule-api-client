@@ -73,3 +73,20 @@ func (c *Client) GetProjectOrders(projectID, limit, offset int) ([]*Order, error
 
 	return orders.Orders, nil, orders.Meta.Next == ""
 }
+
+func (c *Client) GetProjectOrdersJson(projectID, limit, offset int) ([]byte, error) {
+	projectIDStr := strconv.Itoa(projectID)
+	limitStr := strconv.Itoa(limit)
+	offsetStr := strconv.Itoa(offset)
+
+	jsonBytes, err := c.apigetJsonBytes("/projects/" + projectIDStr + "/orders?limit=" + limitStr + "&offset=" + offsetStr)
+	if err != nil {
+		return nil, err
+	}
+	return jsonBytes, nil
+}
+
+// only available to user who placed the order (using OAuth)
+// func (c *Client) GetOrder(orderID int) (*Order, error) {
+// /orders/:id
+// }

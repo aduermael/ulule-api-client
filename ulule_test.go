@@ -34,7 +34,7 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func TestGetProjects(t *testing.T) {
+func _TestGetProjects(t *testing.T) {
 	fmt.Println("list projects")
 	_, err := client.GetProjects(userID, ProjectFilterAll)
 	if err != nil {
@@ -42,7 +42,7 @@ func TestGetProjects(t *testing.T) {
 	}
 }
 
-func TestGetOneProject(t *testing.T) {
+func _TestGetOneProject(t *testing.T) {
 	fmt.Println("get project")
 	_, err := client.GetProject(projectID)
 	if err != nil {
@@ -50,7 +50,7 @@ func TestGetOneProject(t *testing.T) {
 	}
 }
 
-func TestGetProjectSupporters(t *testing.T) {
+func _TestGetProjectSupporters(t *testing.T) {
 	fmt.Println("get project supporters")
 	_, err, _ := client.GetProjectSupporters(projectID, 20, 0)
 	if err != nil {
@@ -58,7 +58,7 @@ func TestGetProjectSupporters(t *testing.T) {
 	}
 }
 
-func TestGetProjectOrders(t *testing.T) {
+func _TestGetProjectOrders(t *testing.T) {
 	fmt.Println("get project orders")
 	_, err, _ := client.GetProjectOrders(projectID, 20, 0)
 	if err != nil {
@@ -66,9 +66,43 @@ func TestGetProjectOrders(t *testing.T) {
 	}
 }
 
+func TestSponsor(t *testing.T) {
+	fmt.Println("test sponsor orders")
+
+	offset := 0
+	lastpage := false
+	var err error
+	var orders []*Order
+
+	fmt.Println("")
+
+	for lastpage == false {
+		orders, err, lastpage = client.GetProjectOrders(projectID, 100, offset)
+		if err != nil {
+			t.Error(err)
+		}
+		offset += len(orders)
+		fmt.Printf("\rlisted: %d", offset)
+
+		for _, order := range orders {
+			if int(order.User.ID) == 837917 {
+				fmt.Println("\nFOUND GAETAN'S ORDER!")
+				jsonBytes, err := client.GetProjectOrdersJson(projectID, 100, offset-len(orders))
+				if err != nil {
+					t.Fatal(err)
+				}
+				t.Log(string(jsonBytes))
+				return
+			}
+		}
+	}
+
+	// 1110244 (gaetan)
+}
+
 // Users
 
-func TestGetUser(t *testing.T) {
+func _TestGetUser(t *testing.T) {
 	fmt.Println("get user")
 	usr, err := client.GetUser(userID)
 	if err != nil {
