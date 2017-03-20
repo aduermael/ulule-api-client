@@ -1,10 +1,28 @@
 package ulule
 
+import (
+	"strings"
+	"time"
+)
+
 // ListProjectResponse represents a response from
 // Ulule's API to a GET */projects request.
 type ListProjectResponse struct {
 	Meta     *Metadata  `json:"meta"`
 	Projects []*Project `json:"projects"`
+}
+
+type Time struct {
+	time.Time
+}
+
+func (t *Time) UnmarshalJSON(buf []byte) error {
+	tt, err := time.Parse(time.RFC3339Nano, strings.Trim(string(buf), `"`))
+	if err != nil {
+		return err
+	}
+	t.Time = tt
+	return nil
 }
 
 // Project represents an Ulule project
@@ -87,6 +105,7 @@ type Order struct {
 	User            *User        `json:"user"`
 	ShippingAddress *Address     `json:"shipping_address,omitempty"`
 	BillingAddress  *Address     `json:"billing_address,omitempty"`
+	CreatedAt       *Time        `json:"created_at,omitempty"`
 }
 
 // OrderStatus describes the status of an order placed by a supporter

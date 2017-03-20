@@ -85,19 +85,18 @@ func TestSponsor(t *testing.T) {
 		fmt.Printf("\rlisted: %d", offset)
 
 		for _, order := range orders {
-			if int(order.User.ID) == 837917 {
-				fmt.Println("\nFOUND GAETAN'S ORDER!")
-				jsonBytes, err := client.GetProjectOrdersJson(projectID, 100, offset-len(orders))
-				if err != nil {
-					t.Fatal(err)
-				}
-				t.Log(string(jsonBytes))
-				return
-			}
+
+			fmt.Println(order.CreatedAt.String())
+			// if int(order.User.ID) == 837917 {
+			// 	jsonBytes, err := client.GetProjectOrdersJson(projectID, 100, offset-len(orders))
+			// 	if err != nil {
+			// 		t.Fatal(err)
+			// 	}
+			// 	t.Log(string(jsonBytes))
+			// 	return
+			// }
 		}
 	}
-
-	// 1110244 (gaetan)
 }
 
 // Users
