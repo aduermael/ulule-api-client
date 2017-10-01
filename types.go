@@ -58,6 +58,34 @@ type Reward struct {
 	Stock          int     `json:"stock"`
 	StockAvailable int     `json:"stock_available"`
 	StockTaken     int     `json:"stock_taken"`
+	DescriptionDE  string  `json:"description_de"`
+	DescriptionEN  string  `json:"description_en"`
+	DescriptionES  string  `json:"description_es"`
+	DescriptionFR  string  `json:"description_fr"`
+	DescriptionIT  string  `json:"description_it"`
+	DescriptionNL  string  `json:"description_nl"`
+}
+
+func (r *Reward) Description() string {
+	if r.DescriptionEN != "" {
+		return r.DescriptionEN
+	}
+	if r.DescriptionFR != "" {
+		return r.DescriptionFR
+	}
+	if r.DescriptionDE != "" {
+		return r.DescriptionDE
+	}
+	if r.DescriptionES != "" {
+		return r.DescriptionES
+	}
+	if r.DescriptionIT != "" {
+		return r.DescriptionIT
+	}
+	if r.DescriptionNL != "" {
+		return r.DescriptionNL
+	}
+	return ""
 }
 
 // ListSupporterResponse represents a response from
