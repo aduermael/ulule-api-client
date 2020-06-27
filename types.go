@@ -27,7 +27,7 @@ func (t *Time) UnmarshalJSON(buf []byte) error {
 
 // Project represents an Ulule project
 type Project struct {
-	ID              float64   `json:"id"`
+	ID              int       `json:"id"`
 	URL             string    `json:"absolute_url"`
 	Goal            int       `json:"goal"`
 	GoalRaised      bool      `json:"goal_raised"`
@@ -52,18 +52,19 @@ type Project struct {
 
 // Reward represents one reward in a Project
 type Reward struct {
-	ID             float64 `json:"id"`
-	Available      bool    `json:"available"`
-	Price          int     `json:"price"`
-	Stock          int     `json:"stock"`
-	StockAvailable int     `json:"stock_available"`
-	StockTaken     int     `json:"stock_taken"`
-	DescriptionDE  string  `json:"description_de"`
-	DescriptionEN  string  `json:"description_en"`
-	DescriptionES  string  `json:"description_es"`
-	DescriptionFR  string  `json:"description_fr"`
-	DescriptionIT  string  `json:"description_it"`
-	DescriptionNL  string  `json:"description_nl"`
+	ID             int    `json:"id"`
+	Available      bool   `json:"available"`
+	Price          int    `json:"price"`
+	Stock          int    `json:"stock"`
+	StockAvailable int    `json:"stock_available"`
+	StockTaken     int    `json:"stock_taken"`
+	DescriptionDE  string `json:"description_de"`
+	DescriptionEN  string `json:"description_en"`
+	DescriptionES  string `json:"description_es"`
+	DescriptionFR  string `json:"description_fr"`
+	DescriptionIT  string `json:"description_it"`
+	DescriptionNL  string `json:"description_nl"`
+	DescriptionPT  string `json:"description_pt"`
 }
 
 func (r *Reward) Description() string {
@@ -85,6 +86,9 @@ func (r *Reward) Description() string {
 	if r.DescriptionNL != "" {
 		return r.DescriptionNL
 	}
+	if r.DescriptionPT != "" {
+		return r.DescriptionPT
+	}
 	return ""
 }
 
@@ -97,19 +101,26 @@ type ListSupporterResponse struct {
 
 // User represents an user profile on Ulule
 type User struct {
-	ID         float64 `json:"id"`
-	URL        string  `json:"absolute_url"`
-	DateJoined string  `json:"date_joined"`
-	FirstName  string  `json:"first_name"`
-	LastName   string  `json:"last_name"`
-	Name       string  `json:"name"`
-	UserName   string  `json:"username"`
-	Country    string  `json:"country"`
-	Lang       string  `json:"lang"`
-	TimeZone   string  `json:"timezone"`
-	IsStaff    bool    `json:"is_staff"`
+	ID         int    `json:"id"`
+	URL        string `json:"absolute_url"`
+	DateJoined string `json:"date_joined"`
+	FirstName  string `json:"first_name"`
+	LastName   string `json:"last_name"`
+	// Concatenation of first name and last name if they exist, username otherwise
+	Name     string `json:"name"`
+	UserName string `json:"username"`
+	Country  string `json:"country"`
+	Lang     string `json:"lang"`
+	TimeZone string `json:"timezone"`
+	IsStaff  bool   `json:"is_staff"`
 	// email may be empty depending on authentication
 	Email string `json:"email"`
+}
+
+// ListRewardResponse represents a response from
+// Ulule's API to a GET /projects/:id/rewards request.
+type ListRewardResponse struct {
+	Rewards []*Reward `json:"rewards"`
 }
 
 // ListOrderResponse represents a response from
@@ -121,11 +132,11 @@ type ListOrderResponse struct {
 
 // Order represents an Ulule project order
 type Order struct {
-	ID              float64      `json:"id"`
+	ID              int          `json:"id"`
 	URL             string       `json:"absolute_url"`
-	Subtotal        float64      `json:"order_subtotal"`
-	Total           float64      `json:"order_total"`
-	ShippingTotal   float64      `json:"order_shipping_total"`
+	Subtotal        int          `json:"order_subtotal"`
+	Total           int          `json:"order_total"`
+	ShippingTotal   int          `json:"order_shipping_total"`
 	PaymentMethod   string       `json:"payment_method"`
 	Status          OrderStatus  `json:"status"`
 	StatusDisplay   string       `json:"status_display"`
@@ -156,29 +167,29 @@ const (
 
 // OrderItem represents an Ulule project order item
 type OrderItem struct {
-	UnitPrice         float64 `json:"unit_price"`
-	Quantity          int     `json:"quantity"`
-	Product           int     `json:"reward_id"`
-	LineTotal         float64 `json:"line_total"`
-	LineSubTotal      float64 `json:"line_subtotal"`
-	LineShippingTotal float64 `json:"line_shipping_total"`
-	// TODO: add "reward" attribute
+	UnitPrice         int `json:"unit_price"`
+	Quantity          int `json:"quantity"`
+	Product           int `json:"reward_id"`
+	LineTotal         int `json:"line_total"`
+	LineSubTotal      int `json:"line_subtotal"`
+	LineShippingTotal int `json:"line_shipping_total"`
+	// Reward            *Reward `json:"reward"`
 }
 
 // Address represents a postal address
 type Address struct {
-	ID          float64 `json:"id"`
-	UserID      float64 `json:"user_id"`
-	FirstName   string  `json:"first_name,omitempty"`
-	LastName    string  `json:"last_name,omitempty"`
-	Address1    string  `json:"address1,omitempty"`
-	Address2    string  `json:"address2,omitempty"`
-	City        string  `json:"city,omitempty"`
-	Country     string  `json:"country,omitempty"`
-	PostalCode  string  `json:"postal_code,omitempty"`
-	State       string  `json:"state,omitempty"`
-	PhoneNumber string  `json:"phone_number,omitempty"`
-	EntityName  string  `json:"entity_name,omitempty"`
+	ID          int    `json:"id"`
+	UserID      int    `json:"user_id"`
+	FirstName   string `json:"first_name,omitempty"`
+	LastName    string `json:"last_name,omitempty"`
+	Address1    string `json:"address1,omitempty"`
+	Address2    string `json:"address2,omitempty"`
+	City        string `json:"city,omitempty"`
+	Country     string `json:"country,omitempty"`
+	PostalCode  string `json:"postal_code,omitempty"`
+	State       string `json:"state,omitempty"`
+	PhoneNumber string `json:"phone_number,omitempty"`
+	EntityName  string `json:"entity_name,omitempty"`
 }
 
 // Metadata is used for pagination
