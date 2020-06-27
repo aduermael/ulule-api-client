@@ -13,3 +13,13 @@ func (c *Client) GetUser(userID int) (*User, error) {
 	}
 	return resp, nil
 }
+
+// Me returns connected user
+func (c *Client) Me() (*User, error) {
+	resp := &User{}
+	err := c.apiget("/me", resp)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
