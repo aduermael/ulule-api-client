@@ -1,6 +1,8 @@
 package ulule
 
-import "strconv"
+import (
+	"strconv"
+)
 
 // ProjectFilter defines filters that can be used when listing projects
 type ProjectFilter string
@@ -86,7 +88,17 @@ func (c *Client) GetProjectOrdersJson(projectID, limit, offset int) ([]byte, err
 	return jsonBytes, nil
 }
 
-// only available to user who placed the order (using OAuth)
-// func (c *Client) GetOrder(orderID int) (*Order, error) {
-// /orders/:id
-// }
+// GetProjectRewards lists rewards for a project
+func (c *Client) GetProjectRewards(projectID, limit, offset int) ([]*Reward, error, bool) {
+	projectIDStr := strconv.Itoa(projectID)
+	limitStr := strconv.Itoa(limit)
+	offsetStr := strconv.Itoa(offset)
+
+	rewards := &ListRewardResponse{}
+	err := c.apiget("/projects/"+projectIDStr+"/rewards?limit="+limitStr+"&offset="+offsetStr, rewards)
+	if err != nil {
+		return nil, err, false
+	}
+
+	return rewards.Rewards, nil, true
+}
