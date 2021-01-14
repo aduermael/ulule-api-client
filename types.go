@@ -145,6 +145,7 @@ type Order struct {
 	ShippingAddress *Address     `json:"shipping_address,omitempty"`
 	BillingAddress  *Address     `json:"billing_address,omitempty"`
 	CreatedAt       *Time        `json:"created_at,omitempty"`
+	ProjectID       int          `json:"project_id,omitempty"`
 }
 
 // OrderStatus describes the status of an order placed by a supporter
