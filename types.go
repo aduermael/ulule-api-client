@@ -134,9 +134,9 @@ type ListOrderResponse struct {
 type Order struct {
 	ID              int          `json:"id"`
 	URL             string       `json:"absolute_url"`
-	Subtotal        int          `json:"order_subtotal"`
-	Total           int          `json:"order_total"`
-	ShippingTotal   int          `json:"order_shipping_total"`
+	Subtotal        float32      `json:"order_subtotal"`
+	Total           float32      `json:"order_total"`
+	ShippingTotal   float32      `json:"order_shipping_total"`
 	PaymentMethod   string       `json:"payment_method"`
 	Status          OrderStatus  `json:"status"`
 	StatusDisplay   string       `json:"status_display"`
@@ -168,12 +168,12 @@ const (
 
 // OrderItem represents an Ulule project order item
 type OrderItem struct {
-	UnitPrice         int `json:"unit_price"`
-	Quantity          int `json:"quantity"`
-	Product           int `json:"reward_id"`
-	LineTotal         int `json:"line_total"`
-	LineSubTotal      int `json:"line_subtotal"`
-	LineShippingTotal int `json:"line_shipping_total"`
+	UnitPrice         float32 `json:"unit_price"`
+	Quantity          int     `json:"quantity"`
+	Product           int     `json:"reward_id"`
+	LineTotal         float32 `json:"line_total"`
+	LineSubTotal      float32 `json:"line_subtotal"`
+	LineShippingTotal float32 `json:"line_shipping_total"`
 	// Reward            *Reward `json:"reward"`
 }
 
