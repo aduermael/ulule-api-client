@@ -18,6 +18,7 @@ func (c *Client) apiget(route string, res interface{}) error {
 	if err != nil {
 		return err
 	}
+	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
 		return fmt.Errorf("error %d", resp.StatusCode)
@@ -56,6 +57,7 @@ func (c *Client) apigetJsonBytes(route string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
 		return nil, fmt.Errorf("error %d", resp.StatusCode)
